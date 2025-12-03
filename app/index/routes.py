@@ -15,7 +15,7 @@ def all_tasks():
 
 @bp.route("/task/<int:task_id>")
 def task(task_id):
-    task = todos[task_id]
+    task = todos[task_id - 1]
     return render_template("task.html", task=task)
 
 

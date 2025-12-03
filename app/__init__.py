@@ -6,8 +6,6 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 migrate = Migrate()
-login = LoginManager()
-login.login_view = "auth.login"
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -15,9 +13,8 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
-    login.init_app(app)
 
-    from app.routes import bp as main_bp
+    from app.index import bp as main_bp
     app.register_blueprint(main_bp)
     
     return app

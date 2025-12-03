@@ -1,16 +1,14 @@
-from flask import Blueprint
+from app.index import bp
 from flask import render_template
-
-bp = Blueprint("main", __name__)
-
 
 @bp.route("/")
 def index():
     return render_template("index.html")
 
-@bp.route("/")
+
+@bp.route("/tasks")
 def all_tasks():
-    return "<h1>List of all tasks</h1>"
+    return render_template("tasks.html")
 
 @bp.route("/task/<int:task_id>")
 def task(task_id):
@@ -19,4 +17,4 @@ def task(task_id):
 
 @bp.route("/new-task")
 def create_task():
-    return f"<h1>Placeholder for creating a new task"
+    return render_template("new_task.html")

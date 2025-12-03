@@ -11,9 +11,19 @@
       <li class="navlink"><a href="{{ url_for('main.index') }}">Home</a></li>
       <li class="navlink"><a href="{{ url_for('main.all_tasks') }}">View Tasks</a></li>
       <li class="navlink"><a href="{{ url_for('main.create_task') }}">New Task</a></li>
+      <li class="navlink"><a href="{{ url_for('auth.login') }}">Login</a></li>
     </ul>
   </nav>
   <main>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     {% block main %}
     {% endblock %}
     <script src="{{ url_for('static', filename='scripts/tagging.js') }}"></script>

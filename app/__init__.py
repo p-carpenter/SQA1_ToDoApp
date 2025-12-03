@@ -15,6 +15,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     from app.index import bp as main_bp
+    from app.auth import auth as auth_bp
     app.register_blueprint(main_bp)
-    
+    app.register_blueprint(auth_bp)
     return app

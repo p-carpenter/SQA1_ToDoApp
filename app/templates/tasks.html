@@ -4,9 +4,9 @@
     <h1>Your Todo List</h1>
     <ul class="task-list">
         {% for todo in todos %}
-        <li><a href="#">{{ todo.title }}</a></li>
+        <li><a href="{{ url_for("main.task", task_id=todo.id) }}">{{ todo.title }}</a></li>
         {% else %}
-        <li class="placeholder-task">You're all done! <b><a href={{ url_for('create_task') }}>Add more</a></b></li>
+        <li class="placeholder-task">You're all done! <b><a href={{ url_for("main.create_task") }}>Add more</a></b></li>
         {% endfor %}
     </ul>
 {% endblock %}

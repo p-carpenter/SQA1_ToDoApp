@@ -6,7 +6,7 @@
 <p>Tags: {{ ", ".join(task.tags) }}</p>
 
 <div class="task-actions">
-    <a href="#" class="btn">Edit</a>
+    <a href="{{ url_for('main.edit_task', task_id=task.id) }}" class="btn">Edit</a>
     <form>
         <button type="submit" class="btn">Delete</button>
     </form>

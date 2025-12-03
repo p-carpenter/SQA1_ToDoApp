@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block main %}
+
+<form method="post" action="{{ url_for('main.edit_task', task_id=task.id) }}">
+  <label
+    >Title
+    <input name="title" value="{{task.title}}" />
+  </label>
+  <br />
+  <label
+    >Description
+    <textarea name="description">{{ task.description }}</textarea>
+  </label>
+  <br />
+<!--tag container -->
+<div class="tag-container">
+    <label>Tags</label>
+    {% for tag in task.tags %}
+        <span class="tag">
+            {{ tag }} <button type="button">✖</button>
+        </span>
+    {% endfor %}
+    <input type="text">
+</div>
+  <!-- hidden input to store all tags -->
+  <input type="hidden" name="tags" id="hidden-tags">
+  <br/>
+  <button type="submit" class="btn">Save Changes</button>
+  <a href="{{ url_for('main.all_tasks')}}" class="btn">Cancel</a>
+</form>
+{% endblock %}

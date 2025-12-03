@@ -1,9 +1,9 @@
 from app.index import bp
 from app import db
 from flask import render_template, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from datetime import datetime
-from app.utils.models import Todo
+from app.utils.models import Todo, Tag
 
 @bp.route("/")
 @login_required
@@ -88,8 +88,7 @@ def create_task():
 @bp.route("/delete-task/<int:task_id>", methods=["Post"])
 @login_required
 def delete_task(task_id):
-    for i, todo in enumerate(todos):
-        if todo["id"] == task_id:
-            todos.pop(i)
-            break
+    task = Todo.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
     return redirect(url_for("main.all_tasks"))

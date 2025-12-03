@@ -3,7 +3,7 @@
 <h1>{{ task.title }}</h1>
 <p>{{ task.description }}</p>
 <p><small>Created at: {{ task.created_at}}</p>
-<p>Tags: {{ ", ".join(task.tags) }}</p>
+<p>Tags: {{ task.tags | map(attribute='content') | join(', ') }}</p>
 
 <div class="task-actions">
     <a href="{{ url_for('main.edit_task', task_id=task.id) }}" class="btn">Edit</a>

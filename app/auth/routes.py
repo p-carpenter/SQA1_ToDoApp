@@ -2,7 +2,7 @@ from app.auth import auth
 from app import db
 from flask import render_template, request, redirect, url_for, flash
 from datetime import datetime
-from app.utils.forms import LoginForm
+from app.utils.forms import LoginForm, RegistrationForm
 from app.utils.models import User
 from flask_login import current_user, login_user, logout_user, login_required
 from urllib.parse import urlsplit
@@ -35,3 +35,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+
+@auth.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.index"))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Your registration was successful.")
+        return redirect(url_for("auth.login"))
+    return render_template("register.html", form=form)

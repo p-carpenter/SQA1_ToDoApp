@@ -26,13 +26,19 @@ tags_todos_table = Table(
 )
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "users"
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(
         sa.String(64), index=True, unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     todos: so.Mapped[list['Todo']] = so.relationship(back_populates='user')
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def get_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f"<User id={self.id} username='{self.username}'>"
@@ -67,5 +73,4 @@ class Tag(db.Model):
         secondary=tags_todos_table, back_populates='tags')
 
     def __str__(self):
-        tags_str = ', '.join(str(tag) for tag in self.tags)
-        return tags_str
+        return self.content

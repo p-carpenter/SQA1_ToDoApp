@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <h1>View all tasks</h1>
+    <h1>Your Todo List</h1>
+    <ul class="task-list">
+        {% for todo in todos %}
+        <li><a href="#">{{ todo.title }}</a></li>
+        {% else %}
+        <li class="placeholder-task">You're all done! <b><a href={{ url_for('create_task') }}>Add more</a></b></li>
+        {% endfor %}
+    </ul>
 {% endblock %}

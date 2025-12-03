@@ -7,7 +7,7 @@
 
 <div class="task-actions">
     <a href="{{ url_for('main.edit_task', task_id=task.id) }}" class="btn">Edit</a>
-    <form>
+    <form method="post" action="{{ url_for('main.delete_task', task_id=task.id) }}">
         <button type="submit" class="btn">Delete</button>
     </form>
 </div>

@@ -1,14 +1,16 @@
 {% extends 'base.html' %} {% block main %}
 
-<form method="post" action="{{ url_for('main.edit_task', task_id=task.id) }}">
+  <form method="post" action="{% if task %} {{
+  url_for('main.edit_task', task_id=task.id) }} {% else %} {{ url_for('main.create_task') }} {% endif %}" >
+
   <label
     >Title
-    <input name="title" value="{{task.title}}" />
+    <input name="title" value="{{task.title if task else '' }}" />
   </label>
   <br />
   <label
     >Description
-    <textarea name="description">{{ task.description }}</textarea>
+    <textarea name="description">{{ task.description if task else '' }}</textarea>
   </label>
   <br />
 <!--tag container -->
@@ -26,5 +28,6 @@
   <br/>
   <button type="submit" class="btn">Save Changes</button>
   <a href="{{ url_for('main.all_tasks')}}" class="btn">Cancel</a>
+
 </form>
 {% endblock %}

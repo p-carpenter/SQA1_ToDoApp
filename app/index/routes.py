@@ -1,64 +1,92 @@
 from app.index import bp
+from app import db
 from flask import render_template, request, redirect, url_for
+from flask_login import login_required
 from datetime import datetime
-from app.utils.sample_todos import todos
+from app.utils.models import Todo
 
 @bp.route("/")
+@login_required
 def index():
-    todo_count = len(todos)
+    todo_count = Todo.query.count()
     return render_template("index.html", todo_count=todo_count)
 
 
 @bp.route("/tasks")
+@login_required
 def all_tasks():
+    todos = Todo.query.all()
     return render_template("tasks.html", todos=todos)
 
 @bp.route("/task/<int:task_id>")
+@login_required
 def task(task_id):
-    task = None
-    for todo in todos:
-        if todo["id"] == task_id:
-            task = todo
+    task = Todo.query.get_or_404(task_id)
     return render_template("task.html", task=task)
 
 @bp.route("/edit-task/<int:task_id>", methods=["GET", "POST"])
+@login_required
 def edit_task(task_id):
-    index = task_id - 1
-    task = todos[index]
-    print(task)
+    task = Todo.query.get_or_404(task_id)
     if request.method == "POST":
         title = request.form.get("title")
         description = request.form.get("description")
         tags_list = request.form.get("tags", "")
-        tags = [t.strip() for t in tags_list.split(",") if t.strip()]
-        todos[index]["title"] = title
-        todos[index]["description"] = description
-        todos[index]["tags"] = tags
+        tag_names = [t.strip() for t in tags_list.split(",") if t.strip()]
+
+        new_tags = []
+        for name in tag_names:
+            tag = Tag.query.filter_by(content=name).first()
+            if not tag:
+                tag = Tag(content=name)
+                db.session.add(tag)
+            new_tags.append(tag)
+
+        task.title = title
+        task.description = description
+        task.tags = new_tags
+        
+        db.session.commit()
+        
+        
         return redirect(url_for("main.task", task_id=task_id))
 
     return render_template("task_form.html", task=task)
 
 
 @bp.route("/create-task", methods=["GET", "POST"])
+@login_required
 def create_task():
     if request.method == "POST":
-        task_id = todos[-1]["id"] + 1
         title = request.form.get("title")
         description = request.form.get("description")
         tags_list = request.form.get("tags", "")
         tags = [t.strip() for t in tags_list.split(",") if t.strip()]
-        todos.append({
-            "id": task_id,
-            "title": title,
-            "description": description,
-            "created_at": datetime.now(),
-            "tags": tags
-        })
-        return redirect(url_for("main.task", task_id=task_id))
+
+        task = Todo(
+            title=title,
+            description=description,
+            user=current_user,
+        )
+
+        db.session.add(task)
+
+        for tag_name in tags:
+            tag = Tag.query.filter_by(content=tag_name).first()
+            if not tag:
+                tag = Tag(content=tag_name)
+                db.session.add(tag)
+            task.tags.append(tag)
+
+        db.session.commit()
+
+        return redirect(url_for("main.task", task_id=task.id))
+
     return render_template("task_form.html", task=None)
 
 
 @bp.route("/delete-task/<int:task_id>", methods=["Post"])
+@login_required
 def delete_task(task_id):
     for i, todo in enumerate(todos):
         if todo["id"] == task_id:

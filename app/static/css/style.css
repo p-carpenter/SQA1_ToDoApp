@@ -1,43 +1,190 @@
+:root {
+    --tumblr-navy: #36465d;
+    --tumblr-blue: #4b88b0;
+    --tumblr-dark: #000000;
+    --tumblr-light-bg: #ffffff;
+    --tumblr-border: #e5e5e5;
+    --tumblr-text: #444444;
+    --tumblr-gray: #f7f7f7;
+    --tumblr-hover: rgba(255,255,255,0.1);
+}
+
+body {
+    background-color: var(--tumblr-navy);
+    color: var(--tumblr-text);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
 nav {
-    margin: 0 auto 10px auto;
-    background-color: DeepSkyBlue;
+    margin: 0 auto 20px auto;
+    background-color: var(--tumblr-navy);
     padding: 0 30px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 nav h1 {
-    margin: 10px;
-    font-size: 2em;
-    font-weight: bold;
+    margin: 15px 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
     display: flex;
-    margin: 10px;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul .navlink a {
     display: inline-block;
-    padding: 10px 15px;
+    padding: 15px 20px;
     text-decoration: none;
-    color: white;
-}
-
-nav ul .navlink:hover {
-    background-color: white;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.2s;
 }
 
 nav ul .navlink:hover a {
-    color: DeepSkyBlue;
+    color: white;
+    background-color: var(--tumblr-hover);
 }
 
 main {
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    background-color: var(--tumblr-light-bg)
+}
+
+form {
+    background: white;
+    border: 1px solid var(--tumblr-border);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--tumblr-text);
+    font-size: 14px;
+}
+
+form input[type="text"],
+form textarea {
+    width: 100%;
+    padding: 12px 10px;
+    border: 1px solid var(--tumblr-border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+form input[type="text"]:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--tumblr-blue);
+    box-shadow: 0 0 5px rgba(0, 184, 255, 0.4);
+}
+
+.tag-container {
+    margin-bottom: 15px;
+}
+
+.tag-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.tag-container .tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--tumblr-blue);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 16px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.tag-container .tag button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.tag-container .tag button:hover {
+    opacity: 1;
+}
+
+.tag-container input[type="text"] {
+    width: auto;
+    min-width: 200px;
+    margin-bottom: 0;
+    border-radius: 16px;
+    padding: 6px 12px;
+    border: 1px solid var(--tumblr-border);
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 22px;
+    background-color: var(--tumblr-blue);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background-color: #002853;
+}
+
+.btn:last-child {
+    background-color: transparent;
+    color: var(--tumblr-text);
+    border: 1px solid var(--tumblr-border);
+}
+
+.btn:last-child:hover {
+    background-color: #f5f5f5;
 }
 
 .placeholder-task {
-    text-shadow: DeepSkyBlue 1px 0 10px;
+    text-shadow: 0 0 6px var(--tumblr-blue);
+    color: rgba(0,0,0,0.3);
+    font-style: italic;
 }

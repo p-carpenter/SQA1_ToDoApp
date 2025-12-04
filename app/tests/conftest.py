@@ -1,7 +1,7 @@
 import pytest
 from app import create_app, db
 from config import Config
-from app.utils.models import User
+from app.utils.models import User, Todo, Tag
 
 
 class TestConfig(Config):
@@ -36,8 +36,7 @@ def user(app):
     db.session.add(u)
     db.session.commit()
     return u
-
-
+    
 class AuthActions:
     """Small helper to log in and out in tests."""
 

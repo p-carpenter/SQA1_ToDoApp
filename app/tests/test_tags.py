@@ -1,3 +1,6 @@
+from app import db
+from app.utils.models import Todo, Tag
+
 def test_create_task_with_tags_via_form(client, auth):
     auth.login()
 

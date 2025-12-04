@@ -1,5 +1,5 @@
 from app import db
-from app.models import Todo
+from app.utils.models import Todo
 
 
 def test_tasks_requires_login(client):

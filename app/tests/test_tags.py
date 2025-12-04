@@ -5,7 +5,7 @@ def test_create_task_with_tags_via_form(client, auth):
     auth.login()
 
     resp = client.post(
-        "/new-task",
+        "/create-task",
         data={
             "title": "Tagged Task",
             "description": "desc",

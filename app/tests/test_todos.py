@@ -1,5 +1,6 @@
 from app import db
 from app.utils.models import Todo
+from flask import flash
 
 
 def test_tasks_requires_login(client):
@@ -42,11 +43,11 @@ def test_tasks_page_lists_todos(app, client, auth, user):
 def test_create_task_via_form(client, auth):
     auth.login()
 
-    resp = client.get("/new-task")
+    resp = client.get("/create-task")
     assert resp.status_code == 200
 
     resp = client.post(
-        "/new-task",
+        "/create-task",
         data={"title": "Form task", "description": "From form"},
         follow_redirects=True,
     )
@@ -62,7 +63,7 @@ def test_edit_task_via_form(client, auth):
     auth.login()
 
     new_task_response = client.post(
-        "/new-task",
+        "/create-task",
         data={"title": "title1", "description": "desc1"},
         follow_redirects=True,
     )
@@ -87,7 +88,7 @@ def test_delete_task_via_form(client, auth):
     auth.login()
 
     new_task_response = client.post(
-        "/new-task",
+        "/create-task",
         data={"title": "title1", "description": "desc1"},
         follow_redirects=True,
     )
@@ -108,7 +109,38 @@ def test_delete_task_via_form(client, auth):
 def test_login_authenticated_user(client, auth):
     """ Already authenticated user should be taken to the index page """
     auth.login()
-
     authenticated_user_response = client.get("/login", follow_redirects=True)
     assert authenticated_user_response.status_code == 200
     assert b"Hello Testuser" in authenticated_user_response.data
+
+
+def test_mark_task_complete(client, auth, todo):
+    todo_id = todo.id
+    auth.login()
+    resp = client.post(
+        f'/task/{todo_id}/toggle',
+        follow_redirects=True
+    )
+    assert resp.status_code == 200
+    updated = db.session.get(Todo, todo_id)
+    assert updated.completed is True
+    assert f"Task {todo.title} marked as completed"
+
+
+def test_can_reopen_completed_todo(client, auth, todo):
+    # Arrange: mark the todo as completed
+    todo.completed = True
+    db.session.commit()
+    todo_id = todo.id
+
+    # Act: call the reopen route
+    auth.login()
+    resp = client.post(f"/task/{todo_id}/toggle", follow_redirects=True)
+    assert resp.status_code == 200
+
+    # Important: refresh from the DB (do NOT trust the old Python object)
+    db.session.refresh(todo)
+
+    # Assert: task is now reopened
+    assert todo.completed is False
+    assert f"Task {todo.title} reopened.".encode() in resp.data

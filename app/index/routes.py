@@ -92,3 +92,16 @@ def delete_task(task_id):
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for("main.all_tasks"))
+
+@bp.route("/task/<int:task_id>/toggle", methods=["POST"])
+@login_required
+def toggle_task_completion(task_id):
+    task = db.session.get(Todo, task_id)
+    task.completed = not task.completed
+    db.session.commit()
+
+    if task.completed:
+        flash(f"Task {task.title} marked as completed.")
+    else:
+        flash(f"Task {task.title} reopened.")
+    return redirect(url_for("main.all_tasks"))

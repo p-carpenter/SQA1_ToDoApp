@@ -13,15 +13,15 @@ def logged_in_user(auth):
 
 @given('I am on the task creation page')
 def on_task_creation_page(client):
-    resp = client.get("/new-task")
+    resp = client.get("/create-task")
     assert resp.status_code == 200
 
 
 @when(parsers.parse('I create a task with title "{title}" and tags "{tags}"'), target_fixture="create_response")
 def create_task_with_tags(client, title, tags):
-    """Post to the new-task endpoint with tags."""
+    """Post to the create-task endpoint with tags."""
     resp = client.post(
-        "/new-task",
+        "/create-task",
         data={
             "title": title,
             "description": "Test description",

@@ -33,6 +33,18 @@ def test_todo_belongs_to_user(app):
     assert todo.user.username == "bob"
     
 
+def test_todo_has_completed_flag_defaults_false(app, user):
+    todo = Todo(
+        title="Test task",
+        description="Description here",
+        user=user,
+    )
+    db.session.add(todo)
+    db.session.commit()
+
+    assert todo.completed is False
+    
+    
 def test_tag_creation(app):
     tag = Tag(content="urgent")
     db.session.add(tag)

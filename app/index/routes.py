@@ -1,8 +1,7 @@
 from app.index import bp
 from app import db
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from datetime import datetime
 from app.utils.models import Todo, Tag
 
 @bp.route("/")

@@ -1,13 +1,11 @@
 from app.auth import auth
 from app import db
 from flask import render_template, request, redirect, url_for, flash
-from datetime import datetime
 from app.utils.forms import LoginForm, RegistrationForm
 from app.utils.models import User
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user
 from urllib.parse import urlsplit
 import sqlalchemy as sa
-import sqlalchemy.orm as so
 
 @auth.route('/login', methods=["GET", "POST"])
 def login():

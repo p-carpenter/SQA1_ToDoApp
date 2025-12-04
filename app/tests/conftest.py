@@ -1,7 +1,7 @@
 import pytest
 from app import create_app, db
 from config import Config
-from app.utils.models import User, Todo, Tag
+from app.utils.models import User, Todo
 
 
 class TestConfig(Config):

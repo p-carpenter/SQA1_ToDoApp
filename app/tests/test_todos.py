@@ -1,6 +1,5 @@
 from app import db
 from app.utils.models import Todo
-from flask import flash
 
 
 def test_tasks_requires_login(client):

@@ -6,8 +6,8 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import login
-from sqlalchemy import Integer, String, ForeignKey, Table, Column, Text, DateTime
-from sqlalchemy.orm import Session, DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey, Table, Column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 @login.user_loader
 def load_user(id):

@@ -1,6 +1,5 @@
 from pytest_bdd import scenarios, given, when, then, parsers
-from app.utils.models import Todo, Tag
-from app import db
+from app.utils.models import Todo
 
 scenarios('../tags.feature')
 
